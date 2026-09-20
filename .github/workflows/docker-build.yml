@@ -1,0 +1,31 @@
+name: Docker Build (optional advanced)
+
+# This workflow is a template for Module 5 (Deployment & MLOps).
+# Uncomment the `push` trigger and fill in registry secrets once you've
+# chosen a container registry (Docker Hub, GHCR, ECR, GCR, ACR).
+
+on:
+  workflow_dispatch:
+  # push:
+  #   branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t multimodal-ai-assistant:ci .
+
+      # TODO (Module 5): log in to your registry and push the image, e.g.
+      # - name: Log in to GHCR
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Push image
+      #   run: |
+      #     docker tag multimodal-ai-assistant:ci ghcr.io/${{ github.repository }}:latest
+      #     docker push ghcr.io/${{ github.repository }}:latest
