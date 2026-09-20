@@ -1,0 +1,52 @@
+# Environments
+.venv/
+venv/
+env/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+build/
+dist/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data & models (never commit raw datasets or model weights)
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+models/
+*.ckpt
+*.safetensors
+*.bin
+*.gguf
+
+# Vector store artifacts
+*.lance
+.lancedb/
+*.faiss
+
+# Logs
+logs/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.pem
+*.key
+secrets.yaml
