@@ -1,0 +1,54 @@
+# Optional, advanced — see docs/modules/05_deployment_mlops.md, task 5.
+# TODO: replace <your-registry>/<image>:<tag> with your actual pushed image.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multimodal-ai-assistant
+  labels:
+    app: multimodal-ai-assistant
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: multimodal-ai-assistant
+  template:
+    metadata:
+      labels:
+        app: multimodal-ai-assistant
+    spec:
+      containers:
+        - name: api
+          image: <your-registry>/<image>:<tag>
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: multimodal-ai-assistant-secrets
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20
+---
+# TODO: create this secret out-of-band, e.g.:
+#   kubectl create secret generic multimodal-ai-assistant-secrets --from-env-file=.env
+apiVersion: v1
+kind: Secret
+metadata:
+  name: multimodal-ai-assistant-secrets
+type: Opaque
+stringData: {}
